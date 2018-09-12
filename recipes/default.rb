@@ -15,3 +15,22 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+cookbook_file '/usr/bin/cronlock' do
+  source 'cronlock'
+  owner 'root'
+  group 'root'
+  mode 0o755
+end
+
+template '/etc/cronlock.conf' do
+  source node['bioelite_cronlock']['template_cronlock_conf']
+  owner 'root'
+  group 'root'
+  mode 0o644
+  cookbook node['bioelite_cronlock']['template_cookbook']
+  variables(
+    host: node['bioelite_cronlock']['host'],
+    release: node['bioelite_cronlock']['release']
+  )
+end

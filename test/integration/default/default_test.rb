@@ -6,13 +6,13 @@
 # found at http://inspec.io/docs/reference/resources/
 
 unless os.windows?
-  # This is an example test, replace with your own test.
-  describe user('root'), :skip do
+  describe file('/etc/cronlock.conf') do
     it { should exist }
+    its('content') { should match('CRONLOCK_HOST') }
   end
-end
 
-# This is an example test, replace it with your own test.
-describe port(80), :skip do
-  it { should_not be_listening }
+  describe file('/usr/bin/cronlock') do
+    it { should exist }
+    its('mode') { should cmp '0755' }
+  end
 end
